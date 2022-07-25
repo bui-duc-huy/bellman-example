@@ -31,7 +31,7 @@ fn main() {
     println!("Prepare input...");
     let hidden_value = [40; 80];
     let hash_bit = bytes_to_bits_le(&Sha256::digest(&hidden_value));
-    let inputs = compute_multipacking::<Scalar>(&hash_bit);
+    let x = compute_multipacking::<Scalar>(&hash_bit);
 
     let c = problem::OurProblem {
         value: Some(hidden_value),
@@ -41,7 +41,7 @@ fn main() {
     let proof = create_random_proof(c, &params, &mut OsRng).unwrap();
 
     println!("Verify proof...");
-    let result = verify_proof(&pvk, &proof, &inputs);
+    let result = verify_proof(&pvk, &proof, &x);
     
     println!("Result: {}", result.is_ok());
 }
